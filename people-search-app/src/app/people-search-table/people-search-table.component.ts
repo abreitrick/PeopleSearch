@@ -27,7 +27,8 @@ export class PeopleSearchTableComponent implements OnInit {
     ngOnInit() {
       this.dataService.getAll().subscribe(
         data => {
-                for (let i=0; i<data.length; i++) {
+// tslint:disable-next-line: prefer-for-of
+                for (let i = 0; i < data.length; i++) {
                 this.people.push(data[i] as Person);
               }
                 this.people = data;
@@ -44,12 +45,12 @@ export class PeopleSearchTableComponent implements OnInit {
                 this.person.interests = p.Interests;
                 this.person.image = p.Image;
 
-                
+
                 console.log(this.person.id);
               });
             },
-              error => {console.log('error')},
-              () => {console.log(this.people)}
+              error => {console.log('error'); },
+              () => {console.log(this.people); }
               );
       console.log(this.people);
               }
