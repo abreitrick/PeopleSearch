@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { PeopleSearchTableDataSource } from './people-search-table-datasource';
 import { Person } from '../person';
 import { MatPaginator, MatSort } from '@angular/material';
+import {MatTableDataSource} from '@angular/material/table';
 // import { PEOPLE_DATA } from '../people-data';
 
 @Component({
@@ -20,11 +21,15 @@ export class PeopleSearchTableComponent implements OnInit {
     public values: Person[];
 
     public person: Person;
+    newPerson: Person;
     people: Person[] = [];
 
-    displayedColumns = ['id', 'firstName', 'lastName', 'streetAddress', 'city', 'state', 'zip', 'interests', 'image'];
+    displayedColumns = ['id', 'firstName', 'lastName', 'streetAddress', 'city', 'state', 'zip', 'age', 'interests', 'image'];
+
+    dataSource = new MatTableDataSource(this.people);
 
     ngOnInit() {
+
       this.dataService.getAll().subscribe(
         data => {
 // tslint:disable-next-line: prefer-for-of
@@ -44,9 +49,8 @@ export class PeopleSearchTableComponent implements OnInit {
                 this.person.age = p.Age;
                 this.person.interests = p.Interests;
                 this.person.image = p.Image;
-
-
                 console.log(this.person.id);
+                this.dataSource.data = this.people;
               });
             },
               error => {console.log('error'); },
@@ -55,4 +59,34 @@ export class PeopleSearchTableComponent implements OnInit {
       console.log(this.people);
               }
 
-          }
+
+      save(): void {
+          this.dataService.updatePerson(this.person)
+            .subscribe(() => 
+            console.log('Save successful'));
+        }
+
+      add(id: number, firstName: string, lastName: string, streetAddress: string, city: string, state: string, zip: string,
+          age: number, interests: string, image: object): void {
+            this.newPerson.id = id;
+            this.newPerson.firstName = firstName;
+            this.newPerson.lastName = lastName;
+            this.newPerson.streetAddress = streetAddress;
+            this.newPerson.city = city;
+            this.newPerson.state = state;
+            this.newPerson.zip = zip;
+            this.newPerson.age = age;
+            this.newPerson.interests = interests;
+            this.newPerson.image = image;
+            console.log(this.newPerson);
+            this.dataService.addPerson(this.newPerson)
+              .subscribe(p => {
+              this.people.push(this.person);
+          });
+        }
+
+        filter(filterValue: string) {
+          this.dataSource.filter = filterValue.trim().toLowerCase();
+          console.log(this.dataSource);
+        }
+   }
