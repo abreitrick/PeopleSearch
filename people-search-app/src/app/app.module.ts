@@ -10,6 +10,8 @@ import { PeopleSearchTableComponent } from './people-search-table/people-search-
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PeopleSearchTableDataSource } from './people-search-table/people-search-table-datasource';
 import { Configuration } from './app.constants';
+import { NgxSpinnerModule } from 'ngx-spinner';
+
 
 @NgModule({
   declarations: [
@@ -25,6 +27,7 @@ import { Configuration } from './app.constants';
     MatPaginatorModule,
     MatSortModule,
     MatProgressSpinnerModule,
+    NgxSpinnerModule,
     BrowserAnimationsModule
   ],
   providers: [HttpClientModule,

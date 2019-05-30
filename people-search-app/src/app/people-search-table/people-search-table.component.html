@@ -1,12 +1,10 @@
-<mat-form-field>
+<mat-form-field class="filter">
   <input matInput (keyup)="filter($event.target.value)" placeholder="Filter">
 </mat-form-field>
-<div class="container mat-elevation-z8">
+
+<div class="mat-elevation-z8">
     
   <mat-table #table [dataSource]="dataSource">
-
-    <!--- Note that these columns can be defined in any order.
-          The actual rendered columns are set as a property on the row definition" -->
 
     <ng-container matColumnDef="id">
       <mat-header-cell *matHeaderCellDef>ID</mat-header-cell>
@@ -62,37 +60,7 @@
  
     
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="row.highlighted = !row.highlighted" (mouseover)="row.hovered = true" (mouseout)="row.hovered = false"></mat-row>
-    <!-- [ngClass]="{hovered: row.hovered, highlighted: row.highlighted}" -->
+    <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="row.highlighted = !row.highlighted" (mouseover)="row.hovered = true" (mouseout)="row.hovered = false" [ngClass]="{hovered: row.hovered, highlighted: row.highlighted}"></mat-row>
   </mat-table>
-  <button (click)="save()">save</button>
 
-  <div>
-      <label>New Person:
-        <input #Id />
-        <input #FirstName />
-        <input #LastName />
-        <input #StreetAddress />
-        <input #City />
-        <input #State />
-        <input #Zip />
-        <input #Age />
-        <input #Interests />
-        <input #Image /> 
-      </label>
-      <!-- (click) passes input value to add() and then clears the input -->
-      <button (click)="add(Id.value / + FirstName.value + LastName.value + StreetAddress.value + City.value + State.value + Zip.value + Age.value + Interests.value + Image.value);
-       Id.value='' + FirstName.value='' + LastName.value='' + StreetAddress.value='' + City.value='' + State.value='' + Zip.value='' + Age.value='' + Interests.value='' + Image.value=''">
-        add
-      </button> 
-     
-    </div>
 </div> 
-
-
-<!-- 
-<button (click)="getPeople()"></button>
-
-<div *ngFor="let p of people  | async">
-  {{ people | async | json }}
-</div> -->

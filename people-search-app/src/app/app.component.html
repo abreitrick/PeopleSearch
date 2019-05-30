@@ -1,3 +1,18 @@
-<app-people-search-table></app-people-search-table>
+<div class="container">
+    
+    <!-- Different spinner types can be previewed at https://napster2210.github.io/ngx-spinner/ -->
+    <ngx-spinner
+    size = "medium"
+    color = "#fff"
+    type = "ball-atom"
+    [fullScreen] = "true">
+    <p class="load"> Loading... </p>
+    </ngx-spinner>
 
-<router-outlet></router-outlet>
+    <app-people-search-table></app-people-search-table>
+    <!-- <router-outlet></router-outlet> -->
+
+    <div>
+        <button class="button is-info" (click)="showSpinner()">Preview Loading Spinner</button>
+    </div>
+</div>

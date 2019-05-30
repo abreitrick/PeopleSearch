@@ -3,7 +3,7 @@ import { PeopleSearchTableDataSource } from './people-search-table-datasource';
 import { Person } from '../person';
 import { MatPaginator, MatSort } from '@angular/material';
 import {MatTableDataSource} from '@angular/material/table';
-// import { PEOPLE_DATA } from '../people-data';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-people-search-table',
@@ -13,9 +13,10 @@ import {MatTableDataSource} from '@angular/material/table';
 
 export class PeopleSearchTableComponent implements OnInit {
 
-      constructor(private dataService: PeopleSearchTableDataSource) { }
-   @ViewChild(MatPaginator) paginator: MatPaginator;
-   @ViewChild(MatSort) sort: MatSort;
+  constructor(private dataService: PeopleSearchTableDataSource, private spinner: NgxSpinnerService) { }
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
     public message: string;
     public values: Person[];
@@ -29,6 +30,12 @@ export class PeopleSearchTableComponent implements OnInit {
     dataSource = new MatTableDataSource(this.people);
 
     ngOnInit() {
+
+      this.spinner.show();
+
+      setTimeout(() => {
+        this.spinner.hide();
+      }, 15000);
 
       this.dataService.getAll().subscribe(
         data => {
@@ -53,40 +60,41 @@ export class PeopleSearchTableComponent implements OnInit {
                 this.dataSource.data = this.people;
               });
             },
-              error => {console.log('error'); },
-              () => {console.log(this.people); }
-              );
+            error => {console.log('error'); },
+            () => {console.log(this.people); }
+            );
       console.log(this.people);
-              }
+      }
 
+      filter(filterValue: string) {
+        this.dataSource.filter = filterValue.trim().toLowerCase();
+        console.log(this.dataSource);
+      }
 
-      save(): void {
-          this.dataService.updatePerson(this.person)
-            .subscribe(() => 
-            console.log('Save successful'));
-        }
+  }
 
-      add(id: number, firstName: string, lastName: string, streetAddress: string, city: string, state: string, zip: string,
-          age: number, interests: string, image: object): void {
-            this.newPerson.id = id;
-            this.newPerson.firstName = firstName;
-            this.newPerson.lastName = lastName;
-            this.newPerson.streetAddress = streetAddress;
-            this.newPerson.city = city;
-            this.newPerson.state = state;
-            this.newPerson.zip = zip;
-            this.newPerson.age = age;
-            this.newPerson.interests = interests;
-            this.newPerson.image = image;
-            console.log(this.newPerson);
-            this.dataService.addPerson(this.newPerson)
-              .subscribe(p => {
-              this.people.push(this.person);
-          });
-        }
+// save(): void {
+//     this.dataService.updatePerson(this.person)
+//       .subscribe(() => 
+//       console.log('Save successful'));
+//   }
 
-        filter(filterValue: string) {
-          this.dataSource.filter = filterValue.trim().toLowerCase();
-          console.log(this.dataSource);
-        }
-   }
+// add(id: number, firstName: string, lastName: string, streetAddress: string, city: string, state: string, zip: string,
+//     age: number, interests: string, image: object): void {
+//       this.newPerson.id = id;
+//       this.newPerson.firstName = firstName;
+//       this.newPerson.lastName = lastName;
+//       this.newPerson.streetAddress = streetAddress;
+//       this.newPerson.city = city;
+//       this.newPerson.state = state;
+//       this.newPerson.zip = zip;
+//       this.newPerson.age = age;
+//       this.newPerson.interests = interests;
+//       this.newPerson.image = image;
+//       console.log(this.newPerson);
+//       this.dataService.addPerson(this.newPerson)
+//         .subscribe(p => {
+//         this.people.push(this.person);
+//     });
+//   }
+
