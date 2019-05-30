@@ -1,17 +1,19 @@
-<div class="container mat-elevation-z8">
-  <mat-table #table [dataSource]="people">
+<mat-form-field class="filter">
+  <input matInput (keyup)="filter($event.target.value)" placeholder="Filter">
+</mat-form-field>
 
-    <!--- Note that these columns can be defined in any order.
-          The actual rendered columns are set as a property on the row definition" -->
+<div class="mat-elevation-z8">
+    
+  <mat-table #table [dataSource]="dataSource">
 
     <ng-container matColumnDef="id">
       <mat-header-cell *matHeaderCellDef>ID</mat-header-cell>
-      <mat-cell *matCellDef="let people"> {{people.id}} </mat-cell>
+      <mat-cell *matCellDef="let person"> {{person.id}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="firstName">
       <mat-header-cell *matHeaderCellDef> First Name </mat-header-cell>
-      <mat-cell *matCellDef="let people"> {{people.firstName}} </mat-cell>
+      <mat-cell *matCellDef="let person"> {{person.firstName}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="lastName">
@@ -55,17 +57,10 @@
       <mat-header-cell *matHeaderCellDef> Image </mat-header-cell>
       <mat-cell *matCellDef="let person"> {{person.image}} </mat-cell>
     </ng-container>
-
+ 
+    
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="row.highlighted = !row.highlighted" (mouseover)="row.hovered = true" (mouseout)="row.hovered = false"></mat-row>
-    <!-- [ngClass]="{hovered: row.hovered, highlighted: row.highlighted}" -->
+    <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="row.highlighted = !row.highlighted" (mouseover)="row.hovered = true" (mouseout)="row.hovered = false" [ngClass]="{hovered: row.hovered, highlighted: row.highlighted}"></mat-row>
   </mat-table>
-</div>
 
-
-<!-- 
-<button (click)="getPeople()"></button>
-
-<div *ngFor="let p of people  | async">
-  {{ people | async | json }}
-</div> -->
+</div> 
